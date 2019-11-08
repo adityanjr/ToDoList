@@ -1,3 +1,3 @@
-# todos.js
-A simple Todo list Application using javascript DOM .....
- # https://adityanjr.github.io/todos.js/
+# To-Do
+A simple Todo list Application using javascript DOM. Filter function is also implemented.
+### Link: https://adityanjr.github.io/todos.js/
