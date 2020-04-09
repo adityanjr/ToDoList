@@ -1,57 +1,52 @@
-const addForm = document.querySelector('.add');
-const search = document.querySelector('.search input');
-const list = document.querySelector('.todos');
+const express = require("express")
+const bodyParser = require("body-parser");
 
-const generateTemplate = todo => {
-  const html = `
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <span>${todo}</span>
-      <i class="far fa-trash-alt delete"></i>
-    </li>
-  `;
-  list.innerHTML += html;
-};
+let items = ["Buy", "Cook", "Eat"]; //for scope
+let workItems = [];
 
-const filterTodos = term => {
+const app = express();
 
-  // add filtered class
-  Array.from(list.children)
-    .filter(todo => !todo.textContent.toLowerCase().includes(term))
-    .forEach(todo => todo.classList.add('filtered'));
+app.set("view engine", "ejs");
 
-  // remove filtered class
-  Array.from(list.children)
-    .filter(todo => todo.textContent.toLowerCase().includes(term))
-    .forEach(todo => todo.classList.remove('filtered'));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static("public"));
 
-};
-
-// add todos event
-addForm.addEventListener('submit', e => {
-  
-  e.preventDefault();
-  const todo = addForm.add.value.trim();
-
-  if(todo.length){
-    generateTemplate(todo);
-    addForm.reset();
-  }
-
+app.get("/", function(req, res){
+    
+    let today = new Date();
+    
+    let options = {
+        weekday: "long",
+        day: "numeric",
+        month: "long"
+    };
+    
+    let day = today.toLocaleDateString("hi-IN", options);
+	
+    res.render("list", {listTitle: day, newListItems: items});
 });
 
-// delete todos event
-list.addEventListener('click', e => {
-
-  if(e.target.classList.contains('delete')){
-    e.target.parentElement.remove();
-  }
-
+app.post("/", function(req,res){
+    
+    let item = req.body.newItem;
+    
+    if(req.body.list == "Work") {
+        workItems.push(item);
+        res.redirect("/work");
+    } else {
+        items.push(item);
+        res.redirect("/");
+    }
 });
 
-// filter todos event
-search.addEventListener('keyup', () => {
-
-  const term = search.value.trim().toLowerCase();
-  filterTodos(term);
-
+app.get("/work", function(req, res){
+    res.render("list", {listTitle: "Work List", newListItems: workItems});
 });
+
+app.get("/about", function(req,res){
+    res.render("about");
+});
+
+app.listen(8000, function(){
+	console.log("Server at 8000");
+})

@@ -1,0 +1,24 @@
+{
+  "name": "todos",
+  "version": "1.0.0",
+  "description": "Todo List",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adityanjr/todos.js.git"
+  },
+  "author": "Aditya Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adityanjr/todos.js/issues"
+  },
+  "homepage": "https://github.com/adityanjr/todos.js#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.2",
+    "express": "^4.17.1"
+  }
+}
