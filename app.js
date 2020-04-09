@@ -1,8 +1,9 @@
 const express = require("express")
 const bodyParser = require("body-parser");
+const date = require(__dirname + "/date.js");
 
-let items = ["Buy", "Cook", "Eat"]; //for scope
-let workItems = [];
+const items = ["Buy", "Cook", "Eat"]; //for scope
+const workItems = [];
 
 const app = express();
 
@@ -13,22 +14,13 @@ app.use(express.static("public"));
 
 app.get("/", function(req, res){
     
-    let today = new Date();
-    
-    let options = {
-        weekday: "long",
-        day: "numeric",
-        month: "long"
-    };
-    
-    let day = today.toLocaleDateString("hi-IN", options);
-	
+    const day = date.getDate(); //exported, can use Day too
     res.render("list", {listTitle: day, newListItems: items});
 });
 
 app.post("/", function(req,res){
     
-    let item = req.body.newItem;
+    const item = req.body.newItem;
     
     if(req.body.list == "Work") {
         workItems.push(item);
